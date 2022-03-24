@@ -9,13 +9,15 @@ import kotlinx.serialization.json.Json
 
 class SpokenLinesDataSource private constructor(private val inputStream: InputStream) {
     companion object Factories {
+        val DEFAULT_TEST_JSON = "short.json"
+
         fun getInstance(context: Context) = SpokenLinesDataSource(
             context.resources.openRawResource(R.raw.fulltext)
         )
 
         @VisibleForTesting
-        fun getTestInstance() = SpokenLinesDataSource(
-            {}::class.java.classLoader!!.getResourceAsStream("fulltext.json")
+        fun getTestInstance(file: String = DEFAULT_TEST_JSON) = SpokenLinesDataSource(
+            {}::class.java.classLoader!!.getResourceAsStream(file)
         )
     }
 

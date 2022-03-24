@@ -2,6 +2,7 @@ package com.example.doomscrollingforgodot.data
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.example.doomscrollingforgodot.data.SpokenLinesDataSource.Factories.DEFAULT_TEST_JSON
 
 class SpokenLinesRepository private constructor(private val dataSource: SpokenLinesDataSource) {
     companion object Factories {
@@ -10,8 +11,8 @@ class SpokenLinesRepository private constructor(private val dataSource: SpokenLi
         )
 
         @VisibleForTesting
-        fun getTestInstance() = SpokenLinesRepository(
-            SpokenLinesDataSource.getTestInstance()
+        fun getTestInstance(file: String = DEFAULT_TEST_JSON) = SpokenLinesRepository(
+            SpokenLinesDataSource.getTestInstance(file)
         )
 
     }
