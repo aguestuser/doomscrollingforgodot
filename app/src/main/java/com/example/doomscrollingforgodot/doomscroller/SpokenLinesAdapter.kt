@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.doomscrollingforgodot.R
 import com.example.doomscrollingforgodot.data.SpokenLine
 
-class SpokenLinesAdapter(private val spokenLines: List<SpokenLine>):
+class SpokenLinesAdapter(
+    private val spokenLines: List<SpokenLine>,
+    private val onScroll: (Int) -> Unit
+):
     RecyclerView.Adapter<SpokenLinesAdapter.SpokenLineViewHolder>() {
 
     class SpokenLineViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -29,8 +32,8 @@ class SpokenLinesAdapter(private val spokenLines: List<SpokenLine>):
     }
 
     override fun onBindViewHolder(holder: SpokenLineViewHolder, position: Int) {
-        val spokenLine = spokenLines[position]
-        holder.bind(spokenLine)
+        onScroll(position)
+        holder.bind(spokenLines[position])
     }
 
     override fun getItemCount(): Int = spokenLines.size
