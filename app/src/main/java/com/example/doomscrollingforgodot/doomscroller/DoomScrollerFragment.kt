@@ -7,32 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.doomscrollingforgodot.R
 import com.example.doomscrollingforgodot.data.SpokenLinesRepository
 import com.example.doomscrollingforgodot.databinding.FragmentDoomScrollerBinding
 
 class DoomScrollerFragment: Fragment() {
-
     val TAG = this.javaClass.simpleName
+
+    private val viewModel by viewModels<DoomScrollerViewModel> {
+        DoomScrollerViewModelFactory(SpokenLinesRepository.getInstance(requireContext()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val context = requireContext()
-        val spokenLinesRepository = SpokenLinesRepository.getInstance(context)
-        // TODO: instantiate viewModel if needed here (and
-        val spokenLinesAdapter = SpokenLinesAdapter(spokenLinesRepository.lines) { onScroll(it) }
-
         val binding = DataBindingUtil.inflate<FragmentDoomScrollerBinding>(
             inflater, R.layout.fragment_doom_scroller, container,false
         ).apply {
-            // TODO: bind viewModel here if needed
             lifecycleOwner = viewLifecycleOwner
-            spokenLineList.adapter = spokenLinesAdapter
+            spokenLineList.adapter = SpokenLinesAdapter(viewModel.lines) { viewModel.onScroll(it) }
         }
-
         return binding.root
     }
 
