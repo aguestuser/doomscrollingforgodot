@@ -2,4 +2,5 @@
     <string name="app_name">Doomscrolling For Godot</string>
     <string name="speaker__ESTRAGON">ESTRAGON</string>
     <string name="line__nothing_to_be_done">Nothing to be done.</string>
+    <string name="doom_scroller_fragment">DoomScrollerFragment</string>
 </resources>
