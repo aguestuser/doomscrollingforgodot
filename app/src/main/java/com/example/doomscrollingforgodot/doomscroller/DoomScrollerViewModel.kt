@@ -1,7 +1,9 @@
 package com.example.doomscrollingforgodot.doomscroller
 
+import android.animation.ValueAnimator
 import android.util.Log
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,22 +42,55 @@ class DoomScrollerViewModel(private val linesRepository: SpokenLinesRepository):
     val imgScale: LiveData<Float>
         get() = _imgScale
 
+    private val _shouldAnimate = MutableLiveData<Boolean>(false)
+    val shouldAnimate : LiveData<Boolean>
+        get() = _shouldAnimate
+
     // FUNCTIONS
     fun onScroll(idx: Int) {
         Log.i(TAG, "SCROLLED to line $idx")
-        _imgVisibility.value = (if (Math.random() > .5)  View.VISIBLE else View.GONE).also {
-            if (it == View.VISIBLE) {
-                drawImage()
-            }
+        val imageVisibilityProbability = .8
+        if (Math.random() < imageVisibilityProbability) {
+            _imgVisibility.value = View.VISIBLE
+            drawImage()
+        } else {
+            _imgVisibility.value = View.INVISIBLE
         }
     }
 
     private fun drawImage(){
         _imgSrc.value = imgSrcs.random()
         _imgX.value = ((Math.random().toFloat() - .5f) * 1000)
-        _imgY.value = (Math.random().toFloat() - .5f) * 1000
-        _imgAlpha.value = Math.random().toFloat() * .5f
         _imgScale.value = Math.random().toFloat() // * 50f
+        animateY()
+        animateAlpha()
+    }
+
+    private fun animateY() {
+        val riseDistance = 1000f
+        val start = (Math.random().toFloat() - .5f) * 1000
+        val end = start - riseDistance
+        ValueAnimator.ofFloat(start, end).apply {
+            interpolator = LinearInterpolator()
+            duration = 20000
+            addUpdateListener {
+                _imgY.value = it.animatedValue as Float
+            }
+            start()
+        }
+    }
+
+    private fun animateAlpha() {
+        val start = 0f
+        val max = Math.random().toFloat() //* .5f
+        ValueAnimator.ofFloat(start, max, start).apply {
+            // interpolator = LinearInterpolator()
+            duration = 20000
+            addUpdateListener {
+                _imgAlpha.value = it.animatedValue as Float
+            }
+            start()
+        }
     }
 }
 
