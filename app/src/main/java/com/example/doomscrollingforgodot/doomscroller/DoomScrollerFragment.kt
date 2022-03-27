@@ -1,7 +1,6 @@
 package com.example.doomscrollingforgodot.doomscroller
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,14 +25,11 @@ class DoomScrollerFragment: Fragment() {
     ): View {
         val binding = DataBindingUtil.inflate<FragmentDoomScrollerBinding>(
             inflater, R.layout.fragment_doom_scroller, container,false
-        ).apply {
-            lifecycleOwner = viewLifecycleOwner
-            spokenLineList.adapter = SpokenLinesAdapter(viewModel.lines) { viewModel.onScroll(it) }
+        ).also {
+            it.lifecycleOwner = viewLifecycleOwner
+            it.vm = viewModel
+            it.spokenLineList.adapter = SpokenLinesAdapter(viewModel.lines, viewModel::onScroll)
         }
         return binding.root
-    }
-
-    private fun onScroll(lineIdx: Int) {
-        Log.i(TAG, "SCROLLED to line $lineIdx")
     }
 }
