@@ -12,6 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/doom_scroller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -22,29 +23,6 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
-
-        <ImageView
-            imageSrc="@{vm.imgSrc}"
-            android:id="@+id/floating_image"
-            android:translationZ="1dp"
-
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias=".5"
-
-            android:layout_width="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".5"
-
-            android:visibility="@{vm.imgVisibility}"
-            android:alpha="@{vm.imgAlpha}"
-            scale="@{vm.imgScale}"
-            android:translationX="@{vm.imgX}"
-            android:translationY="@{vm.imgY}"
-            />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
